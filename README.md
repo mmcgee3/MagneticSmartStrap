@@ -1,2 +1,1 @@
 # MagneticSmartStrap
-# MagneticSmartStrap
