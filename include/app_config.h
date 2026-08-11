@@ -1,6 +1,6 @@
-#define NUM_SENSORS     2
+#define NUM_SENSORS     1
 
 // GPIO DEFS
 #define BUZZER_GPIO     8
-#define SENSOR_A_GPIO   2
-#define SENSOR_B_GPIO   3
+#define HALL_GPIO_A   2
+#define HALL_GPIO_B   3

@@ -16,15 +16,12 @@
  * This firmware is proprietary and confidential. Unauthorized use, modification,
  * or distribution is prohibited without written permission.
  */
-#include <stdio.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
 #include "esp_err.h"
 #include "esp_log.h"
 #include "driver/ledc.h"
 
 #include "app_config.h"
-#include "buzzer_control.h"
+#include "buzzer_controller.h"
 
 #define TAG "BUZZER_CTRL"
 

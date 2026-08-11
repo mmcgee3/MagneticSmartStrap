@@ -1,3 +1,13 @@
+/**
+ * @file app_main.c
+ * 
+ * @author Max McGee
+ *
+ * @brief Main program file
+ * 
+ * TO DO
+ */
+
 /*
  * Copyright (c) 2026 Saturn Sports
  * All rights reserved.
@@ -7,6 +17,9 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_err.h"
@@ -17,29 +30,31 @@
 #include "buzzer_controller.h"
 #include "hall_sensor_controller.h"
 
-#define TASK_DELAY_MS 50    // Period between loop runs
+#define TASK_DELAY_MS 50
 
-#define TAG_MAIN "APP_MAIN"
+#define TAG "APP_MAIN"
 
 
 void app_main(void){
-    ESP_LOGI(TAG_MAIN, "Application starting up!");
+    ESP_LOGI(TAG, "Application starting up!");
     
     // INIT BLE
     buzzer_init();
-    // INIT HALL SENSORS
+    hall_sensor_init();
+
+    hall_sensor_reset();
 
     // Main Loop
     while(1) {
-
-        for (int i = 0; i < NUM_SENSORS ; i++){
-            // CHECK EACH SENSOR
-        }
+        float distance = hall_sensor_get_distance_mm();
+        int counts = hall_sensor_get_counts();
+        
+        ESP_LOGI("app", "%.1f mm  (%d counts)", distance, counts);
 
         // Task Delay
         vTaskDelay(TASK_DELAY_MS / portTICK_PERIOD_MS);
     }
 
     // Log unexpected exit
-    ESP_LOGE(TAG_MAIN, "Unexpected exit from main loop");
+    ESP_LOGE(TAG, "Unexpected exit from main loop");
 }

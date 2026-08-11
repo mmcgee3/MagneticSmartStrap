@@ -14,42 +14,61 @@ TO DO
 
 ## Deployment
 
+All the following bash commands must be run either in PlatoformIO CLI via VS-Code extension or by adding platformIO to your path.
+
 ### Dependincies
 
 The following tools are required to build and deploy this project:
-- [PlatformIO](https://platformio.org/) (VS Code extension)
+- [PlatformIO](https://platformio.org/) (VS Code extension reccomended)
 - Python 3.x (required by PlatformIO)
 
 PlatformIO will install and manage:
-- ESP32-C6 RISC-V toolchain
+- ESP32 RISC-V toolchain
 - ESP-IDF framework
-- Build dependencies
+- Other Build dependencies
 
 ### Setup
 
-TO DO
+Copy project:
+```bash
+git clone https://github.com/mmcgee3/MagneticSmartStrap
+```
+
+Modify [platformio.ini](platformio.ini) to set the your target board.
+
+ex:
+```ini
+[env:esp32-c6-devkitc-1]
+platform = espressif32
+board = esp32-c6-devkitm-1
+board_build.mcu = esp32c6
+framework = espidf
+```
 
 ### Build
-
-Build the firmware using PlatformIO terminal:
 
 ```bash
 pio run
 ```
 
-Image output in /.pio/esp32-c6-devkitc-1
+Image output in /.pio/(target-board)
 
 ### Flashing
 
-TO DO
+```bash
+pio run -t upload
+```
 
 ### Execute
 
 TO DO
 
-## Help
+## Helpful Commands
 
-TO DO
+Clean up current build:
+```bash
+pio run -t fullclean
+```
 
 ## Author
 

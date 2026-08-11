@@ -1,4 +1,4 @@
-#define _BUZZER_CONTROL_H_
+#define _BUZZER_CONTROLLER_H_
 
 #define BUZZER_FREQ_HZ     6000                     // rated resonant frequency, change for other buzzers
 #define BUZZER_MODE        LEDC_LOW_SPEED_MODE      // only mode on C3/S3/C6/H2
