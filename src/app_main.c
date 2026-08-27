@@ -38,9 +38,10 @@
 
 void app_main(void){
     buzzer_init();
-    buzzer_set_state(true);
     vTaskDelay(500 / portTICK_PERIOD_MS);
     ESP_LOGI(TAG, "Application starting up!");
+    buzzer_set_state(true);
+    vTaskDelay(1500 / portTICK_PERIOD_MS);
     buzzer_set_state(false);
 
     esp_err_t nvs_err = nvs_flash_init();
