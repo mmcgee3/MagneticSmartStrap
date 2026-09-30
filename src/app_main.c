@@ -25,13 +25,14 @@
 #include "esp_err.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
+#include "driver/ledc.h"
 
 #include "app_config.h" 
 #include "ble_controller.h"
 #include "buzzer_controller.h"
 #include "hall_sensor_controller.h"
 
-#define TASK_DELAY_MS 250
+#define TASK_DELAY_MS 10
 
 #define TAG "APP_MAIN"
 
@@ -40,9 +41,6 @@ void app_main(void){
     buzzer_init();
     vTaskDelay(500 / portTICK_PERIOD_MS);
     ESP_LOGI(TAG, "Application starting up!");
-    buzzer_set_state(true);
-    vTaskDelay(1500 / portTICK_PERIOD_MS);
-    buzzer_set_state(false);
 
     esp_err_t nvs_err = nvs_flash_init();
 
@@ -61,6 +59,9 @@ void app_main(void){
 
     int last_counts = hall_sensor_get_counts();
 
+    buzzer_set_state(true);
+    vTaskDelay(1500 / portTICK_PERIOD_MS);
+    buzzer_set_state(false);
     // Main Loop
     while(1) {
         int counts = hall_sensor_get_counts();

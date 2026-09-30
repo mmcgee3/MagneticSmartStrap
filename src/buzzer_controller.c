@@ -20,6 +20,9 @@
 #include "esp_log.h"
 #include "driver/ledc.h"
 
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 #include "app_config.h"
 #include "buzzer_controller.h"
 
@@ -60,9 +63,33 @@ void buzzer_init(void){
 void buzzer_set_state(bool state){
     if (state) {
         ESP_ERROR_CHECK(ledc_set_duty(BUZZER_MODE, BUZZER_CHANNEL, BUZZER_DUTY_ON));
+        ESP_ERROR_CHECK(ledc_update_duty(BUZZER_MODE, BUZZER_CHANNEL));
         ESP_LOGI(TAG, "Buzzer ON");
     } else {
         ESP_ERROR_CHECK(ledc_set_duty(BUZZER_MODE, BUZZER_CHANNEL, BUZZER_DUTY_OFF));
+        ESP_ERROR_CHECK(ledc_update_duty(BUZZER_MODE, BUZZER_CHANNEL));
         ESP_LOGI(TAG, "Buzzer OFF");
     }
+}
+
+void play_phrase(void) {
+    int freqs[] = {6600, 7000, 0, 6200, 6000}; // 0 = pause
+    int times[] = {100, 100, 50, 100, 150};
+
+    for (int i = 0; i < sizeof(freqs)/sizeof(freqs[0]); ++i) {
+        if (freqs[i] == 0) {
+            // Pause
+            ESP_ERROR_CHECK(ledc_set_duty(BUZZER_MODE, BUZZER_CHANNEL, BUZZER_DUTY_OFF));
+        } else {
+            // Set frequency and duty
+            ESP_ERROR_CHECK(ledc_set_freq(BUZZER_MODE, BUZZER_TIMER, freqs[i]));
+            ESP_ERROR_CHECK(ledc_set_duty(BUZZER_MODE, BUZZER_CHANNEL, BUZZER_DUTY_ON));
+        }
+        ESP_ERROR_CHECK(ledc_update_duty(BUZZER_MODE, BUZZER_CHANNEL));
+        vTaskDelay(times[i]/ portTICK_PERIOD_MS);
+    }
+
+    // Ensure buzzer is off after phrase
+    ESP_ERROR_CHECK(ledc_set_duty(BUZZER_MODE, BUZZER_CHANNEL, 0));
+    ESP_ERROR_CHECK(ledc_update_duty(BUZZER_MODE, BUZZER_CHANNEL));
 }

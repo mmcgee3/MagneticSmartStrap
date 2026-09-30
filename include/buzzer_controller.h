@@ -1,5 +1,9 @@
 #define _BUZZER_CONTROLLER_H_
 
+#include "driver/gpio.h"
+#include "driver/ledc.h"
+#include <stdbool.h>
+
 #define BUZZER_FREQ_HZ     6000                     // rated resonant frequency, change for other buzzers
 #define BUZZER_MODE        LEDC_LOW_SPEED_MODE      // only mode on C3/S3/C6/H2
 #define BUZZER_TIMER       LEDC_TIMER_0
@@ -10,3 +14,4 @@
 
 void buzzer_init(void);
 void buzzer_set_state(bool state);
+void play_phrase(void);

@@ -44,6 +44,7 @@
 #include "services/gatt/ble_svc_gatt.h"
 
 #include "ble_controller.h"
+#include "buzzer_controller.h"
 
 #define TAG "BLE_CTRL"
 
@@ -127,6 +128,7 @@ static int gap_event_cb(struct ble_gap_event *event, void *arg){
                           event->connect.status);
                 start_advertising();
             }
+            play_phrase();
             return 0;
 
         case BLE_GAP_EVENT_DISCONNECT:
@@ -135,6 +137,7 @@ static int gap_event_cb(struct ble_gap_event *event, void *arg){
             s_conn_handle    = BLE_HS_CONN_HANDLE_NONE;
             s_notify_enabled = false;
             start_advertising();
+            play_phrase();
             return 0;
 
         case BLE_GAP_EVENT_ADV_COMPLETE:
